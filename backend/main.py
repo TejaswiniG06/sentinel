@@ -5,11 +5,11 @@ from database import init_db
 
 app = FastAPI(title="Sentinel API")
 
-init_db()  # creates DB tables on startup
+init_db()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3001"],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -20,3 +20,7 @@ app.include_router(url_analyzer.router, prefix="/api")
 app.include_router(file_scanner.router, prefix="/api")
 app.include_router(score.router, prefix="/api")
 app.include_router(history.router, prefix="/api")
+
+@app.get("/")
+def read_root():
+    return {"message": "Sentinel API is running"}
